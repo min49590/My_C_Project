@@ -196,7 +196,7 @@ void Main_End() {
    system("cls");
 }
 
-int main(void) {
+int main(void) { // main
    SetConsoleTitle("My Tetris");
    Console_Size();
    CursorView(0);

@@ -10,14 +10,37 @@
 #define Width 50 //콘솔창 가로 길이
 #define Height 30 //콘솔창 세로 길이
 
+#define _Width 30 // 게임화면 가로 길이 
+#define _Height 20 // 게임화면 세로 길이
+
+int mino[6][3][3] = {
+	{{1,1,1,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}, // I
+	{{1,1,0,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}}, // O
+	{{1,1,1,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}, // T
+	{{1,1,1,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}, // L
+	{{1,1,1,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}, // J
+	{{1,1,1,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}, // S
+	{{1,1,1,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}, // Z
+};
+
 void gotoxy(int x, int y) { //커서 이동 함수 
    COORD pos = {x, y};
    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void Console_Size() { //콘솔 사이즈 설정
+COORD getxy() {
+    COORD Cur;
+    CONSOLE_SCREEN_BUFFER_INFO a;
+
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&a);
+    Cur.X = a.dwCursorPosition.X;
+    Cur.Y = a.dwCursorPosition.Y;
+    return Cur;
+}
+
+void Console_Size(int w, int h) { //콘솔 사이즈 설정
    char temp[50];
-   sprintf(temp, "Mode con cols=%d lines=%d", Width, Height);
+   sprintf(temp, "Mode con cols=%d lines=%d", w, h);
    system(temp);
 }
 
@@ -40,6 +63,19 @@ void DesignStartScreen(void) { //시작화면 설정
          if (i == 1 || i == Height)
             printf("=");
          else if (j == 1 || j == Width)
+            printf("|");
+         else
+            printf(" ");
+      }
+   }
+}
+void DesignGameScreen(void) { //게임화면 설정
+   system("cls");
+   for (int i = 1; i <= _Height; i++) {
+      for (int j = 1; j <= _Width; j++) {
+         if (i == 1 || i == _Height)
+            printf("=");
+         else if (j == 1 || j == 11 || j == _Width)
             printf("|");
          else
             printf(" ");
@@ -121,12 +157,40 @@ int Main_Menu() {
    }
 }
 
+void print_mino(int mino[3][3]) {
+	COORD cur = getxy();
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (mino[i][j] == 1)
+				printf("O");
+			else
+				printf(" ");
+		}
+		gotoxy(cur.X, cur.Y + 1);
+	}
+}
+
 int Main_Game() {
-   int return_n = 1;
+	Console_Size(_Width, _Height);
+	DesignGameScreen();
+	
+	int return_n = 0;
+	
+	while(1) {
+      if (kbhit()) {
+         int temp = getch();
+         if (temp == 27) // ESC 
+            break;
+      }
+      
+      
+      Sleep(500);
+   }
    
    
-   
-   return return_n;
+	Console_Size(Width, Height);
+	return return_n;
 }
 
 void Main_Control() {
@@ -198,7 +262,7 @@ void Main_End() {
 
 int main(void) { // main
    SetConsoleTitle("My Tetris");
-   Console_Size();
+   Console_Size(Width, Height);
    CursorView(0);
    
    Main_Start();

@@ -159,16 +159,23 @@ int Main_Menu() {
 
 void print_mino(int mino[3][3]) {
 	COORD cur = getxy();
+	int x = cur.X;
+	int y = cur.Y;
 	
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (mino[i][j] == 1)
-				printf("O");
+				printf("%c", '#');
 			else
-				printf(" ");
+				printf("%c", ' ');
 		}
-		gotoxy(cur.X, cur.Y + 1);
+		gotoxy(x, y+1);
 	}
+	gotoxy(cur.X, cur.Y);
+}
+
+void selector(int* order) {
+	
 }
 
 int Main_Game() {
@@ -178,14 +185,14 @@ int Main_Game() {
 	int return_n = 0;
 	
 	while(1) {
-      if (kbhit()) {
-         int temp = getch();
-         if (temp == 27) // ESC 
-            break;
-      }
-      
-      
-      Sleep(500);
+		
+		
+      	if (kbhit()) {
+        	int temp = getch();
+        	if (temp == 27) // ESC 
+        		break;
+    	}
+		Sleep(500);
    }
    
    

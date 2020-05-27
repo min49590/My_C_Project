@@ -175,7 +175,11 @@ void print_mino(int mino[3][3]) {
 }
 
 void selector(int* order) {
-	
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			
+		}
+	}
 }
 
 int Main_Game() {
@@ -183,9 +187,13 @@ int Main_Game() {
 	DesignGameScreen();
 	
 	int return_n = 0;
+	int order[7] = {0,};
 	
 	while(1) {
-		
+		selector(order);
+		for (int i = 0; i < 7; i++) {
+			
+		}
 		
       	if (kbhit()) {
         	int temp = getch();
@@ -271,6 +279,7 @@ int main(void) { // main
    SetConsoleTitle("My Tetris");
    Console_Size(Width, Height);
    CursorView(0);
+   srand(time(NULL));
    
    Main_Start();
    int return_n = 0;

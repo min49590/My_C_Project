@@ -157,10 +157,9 @@ int Main_Menu() {
    }
 }
 
-void print_mino(int mino[3][3]) {
-	COORD cur = getxy();
-	int x = cur.X;
-	int y = cur.Y;
+void print_mino(int _x, int _y, int mino[3][3]) {
+	int x = _x;
+	int y = _y;
 	
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -171,14 +170,15 @@ void print_mino(int mino[3][3]) {
 		}
 		gotoxy(x, y+1);
 	}
-	gotoxy(cur.X, cur.Y);
+	gotoxy(_x, _y);
 }
 
 void selector(int* order) {
 	for (int i = 0; i < 7; i++) {
-		for (int j = 0; j < 7; j++) {
-			
-		}
+		int temp = rand()%7+1;
+		for (int j = 0; j < 7 && order[j] != temp; j++);
+		if (j < 7) i--;
+		else order[i] = temp;
 	}
 }
 
@@ -187,20 +187,27 @@ int Main_Game() {
 	DesignGameScreen();
 	
 	int return_n = 0;
-	int order[7] = {0,};
+	int order[7] = {-1,};
+	
 	
 	while(1) {
+		int x = 6;
+		int y = 1;
 		selector(order);
 		for (int i = 0; i < 7; i++) {
+			print_mino(x, y++, mino[order[i]])
+			Sleep(500);
 			
-		}
-		
-      	if (kbhit()) {
+			
+			if (kbhit()) {
         	int temp = getch();
         	if (temp == 27) // ESC 
         		break;
     	}
-		Sleep(500);
+		
+		}
+		
+      	
    }
    
    
